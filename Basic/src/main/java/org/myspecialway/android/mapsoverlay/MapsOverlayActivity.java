@@ -233,25 +233,25 @@ public class MapsOverlayActivity extends FragmentActivity implements LocationLis
     @Override
     protected void onResume() {
         super.onResume();
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            mMap.setMyLocationEnabled(false);
-        }
-
-        // start receiving location updates & monitor region changes
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), mListener);
-        mIALocationManager.registerRegionListener(mRegionListener);
-
-        // Setup long click to share the traceId
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                ExampleUtils.shareText(MapsOverlayActivity.this,
-                        mIALocationManager.getExtraInfo().traceId, "traceId");
-            }
-        });
+//        if (mMap == null) {
+//            // Try to obtain the map from the SupportMapFragment.
+//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+//                    .getMap();
+//            mMap.setMyLocationEnabled(false);
+//        }
+//
+//        // start receiving location updates & monitor region changes
+//        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), mListener);
+//        mIALocationManager.registerRegionListener(mRegionListener);
+//
+//        // Setup long click to share the traceId
+//        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+//            @Override
+//            public void onMapLongClick(LatLng latLng) {
+//                ExampleUtils.shareText(MapsOverlayActivity.this,
+//                        mIALocationManager.getExtraInfo().traceId, "traceId");
+//            }
+//        });
     }
 
     @Override

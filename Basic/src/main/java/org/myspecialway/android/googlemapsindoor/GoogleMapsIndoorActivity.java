@@ -152,12 +152,12 @@ public class GoogleMapsIndoorActivity extends FragmentActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            mMap.setOnIndoorStateChangeListener(this);
-        }
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), this);
+//        if (mMap == null) {
+////            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+////                    .getMap();
+//            mMap.setOnIndoorStateChangeListener(this);
+//        }
+//        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), this);
     }
 
     @Override

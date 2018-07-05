@@ -53,19 +53,19 @@ public class MapsActivity extends FragmentActivity implements IALocationListener
     @Override
     protected void onResume() {
         super.onResume();
-        if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-        }
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), this);
-
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                ExampleUtils.shareText(MapsActivity.this, mIALocationManager.getExtraInfo().traceId,
-                        "traceId");
-            }
-        });
+//        if (mMap == null) {
+//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+//                    .getMap();
+//        }
+//        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), this);
+//
+//        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+//            @Override
+//            public void onMapLongClick(LatLng latLng) {
+//                ExampleUtils.shareText(MapsActivity.this, mIALocationManager.getExtraInfo().traceId,
+//                        "traceId");
+//            }
+//        });
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +22,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.myspecialway.android.arcorelocation.LocationActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,18 +46,18 @@ public class ListExamplesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAdapter = new ExamplesAdapter(this);
-        ListView listView = (ListView) findViewById(android.R.id.list);
-        listView.setAdapter(mAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ComponentName example = mAdapter.mExamples.get(position).mComponentName;
-                startActivity(new Intent(Intent.ACTION_VIEW).setComponent(example));
-            }
-        });
-
+//        mAdapter = new ExamplesAdapter(this);
+//        ListView listView = (ListView) findViewById(android.R.id.list);
+//        listView.setAdapter(mAdapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                ComponentName example = mAdapter.mExamples.get(position).mComponentName;
+//                startActivity(new Intent(Intent.ACTION_VIEW).setComponent(example));
+//            }
+//        });
+//
         if (!isSdkConfigured()) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.configuration_incomplete_title)
@@ -69,6 +72,8 @@ public class ListExamplesActivity extends AppCompatActivity {
         }
 
         ensurePermissions();
+
+        startActivity(new Intent(this, LocationActivity.class));
 
     }
 

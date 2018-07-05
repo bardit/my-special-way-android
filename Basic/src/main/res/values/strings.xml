@@ -95,5 +95,6 @@
     <string name="example_wayfinding_description">Demonstrates usage of IndoorAtlas Wayfinding</string>
     <string name="example_wayfinding_title">12. Wayfinding</string>
 
+    <string name="plane_finding">Searching for surfaces&#8230;</string>
 
 </resources>
