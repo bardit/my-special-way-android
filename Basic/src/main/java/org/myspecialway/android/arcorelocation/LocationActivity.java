@@ -38,6 +38,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 
 import org.myspecialway.android.R;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -74,7 +75,8 @@ public class LocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sceneform);
         arSceneView = findViewById(R.id.ar_scene_view);
-
+        TextView myLocationText = findViewById(R.id.my_location_text);
+        TextView targetLocationText = findViewById(R.id.target_location);
         // Build a renderable from a 2D View.
 //        CompletableFuture<ViewRenderable> exampleLayout =
 //                ViewRenderable.builder()
@@ -129,6 +131,8 @@ public class LocationActivity extends AppCompatActivity {
                                 // We know that here, the AR components have been initiated.
                                 locationScene = new LocationScene(this, this, arSceneView);
 
+
+
                                 // Now lets create our location markers.
                                 // First, a layout
 //                                LocationMarker layoutLocationMarker = new LocationMarker(
@@ -136,6 +140,8 @@ public class LocationActivity extends AppCompatActivity {
 //                                        42.814603,
 //                                        getExampleView()
 //                                );
+
+
 
                                 // An example "onRender" event, called every frame
                                 // Updates the layout with the markers distance
@@ -151,10 +157,14 @@ public class LocationActivity extends AppCompatActivity {
 //                                locationScene.mLocationMarkers.add(layoutLocationMarker);
 
                                 // Adding a simple location marker of a 3D model
-                                locationScene.mLocationMarkers.add(
-                                        new LocationMarker(
-                                                31.986324, 34.910606,
-                                                getAndy()));
+                                LocationMarker locationMarker = new LocationMarker(
+                                        34.910606,31.986324,
+                                        getAndy());
+                                locationMarker.setRenderEvent(node -> {
+                                    targetLocationText.setText("Target distance: " + node.getDistance() + " - in AR: " + node.getDistanceInAR() + " - Bearing: " + locationScene.getMarkerBearing());
+                                });
+
+                                locationScene.mLocationMarkers.add(locationMarker);
                             }
 
                             Frame frame = arSceneView.getArFrame();
@@ -169,6 +179,15 @@ public class LocationActivity extends AppCompatActivity {
                             if (locationScene != null) {
                                 locationScene.processFrame(frame);
                             }
+
+                            if(locationScene.currentLocation != null) {
+                                myLocationText.setText("My location: " + locationScene.currentLocation.getLongitude() + "," + locationScene.currentLocation.getLatitude());
+                            }
+                            else{
+                                myLocationText.setText("No location yet");
+                            }
+
+//                            targetLocationText.setText("Target's location: " + locationScene.);
 
                             if (loadingMessageSnackbar != null) {
                                 for (Plane plane : frame.getUpdatedTrackables(Plane.class)) {
@@ -317,17 +336,17 @@ public class LocationActivity extends AppCompatActivity {
     }
 
     private void showLoadingMessage() {
-        if (loadingMessageSnackbar != null && loadingMessageSnackbar.isShownOrQueued()) {
-            return;
-        }
-
-        loadingMessageSnackbar =
-                Snackbar.make(
-                        LocationActivity.this.findViewById(android.R.id.content),
-                        R.string.plane_finding,
-                        Snackbar.LENGTH_INDEFINITE);
-        loadingMessageSnackbar.getView().setBackgroundColor(0xbf323232);
-        loadingMessageSnackbar.show();
+//        if (loadingMessageSnackbar != null && loadingMessageSnackbar.isShownOrQueued()) {
+//            return;
+//        }
+//
+//        loadingMessageSnackbar =
+//                Snackbar.make(
+//                        LocationActivity.this.findViewById(android.R.id.content),
+//                        R.string.plane_finding,
+//                        Snackbar.LENGTH_INDEFINITE);
+//        loadingMessageSnackbar.getView().setBackgroundColor(0xbf323232);
+//        loadingMessageSnackbar.show();
     }
 
     private void hideLoadingMessage() {

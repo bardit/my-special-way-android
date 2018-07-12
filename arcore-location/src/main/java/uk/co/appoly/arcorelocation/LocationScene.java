@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
@@ -62,6 +63,7 @@ public class LocationScene implements IALocationListener {
     private DeviceLocationChanged locationChangedEvent;
 
     public IALocation currentLocation;
+    private float markerBearing;
 
     public LocationScene(Context mContext, Activity mActivity, ArSceneView mArSceneView) {
         Log.i(TAG, "Location Scene initiated.");
@@ -76,6 +78,10 @@ public class LocationScene implements IALocationListener {
         mManager.requestLocationUpdates(IALocationRequest.create(), this);
         deviceOrientation = new DeviceOrientation(this);
         deviceOrientation.resume();
+    }
+
+    public float getMarkerBearing(){
+        return markerBearing;
     }
 
     public boolean isDebugEnabled() {
@@ -223,15 +229,21 @@ public class LocationScene implements IALocationListener {
 
                     if (markerDistance > mLocationMarkers.get(i).getOnlyRenderWhenWithin()) {
                         // Don't render if this has been set and we are too far away.
-                        Log.i(TAG, "Not rendering. Marker distance: " + markerDistance + " Max render distance: " + mLocationMarkers.get(i).getOnlyRenderWhenWithin());
+                        Toast.makeText(mContext,"Not rendering. Marker distance: " + markerDistance + " Max render distance: " + mLocationMarkers.get(i).getOnlyRenderWhenWithin(), Toast.LENGTH_SHORT).show();
                         continue;
                     }
 
-                    float markerBearing = deviceOrientation.currentDegree + (float) LocationUtils.bearing(
+                    float previousBearing = markerBearing;
+
+                    markerBearing = deviceOrientation.currentDegree + (float) LocationUtils.bearing(
                             currentLocation.getLatitude(),
                             currentLocation.getLongitude(),
                             mLocationMarkers.get(i).latitude,
                             mLocationMarkers.get(i).longitude);
+
+                    if(Math.abs(previousBearing - markerBearing) > 100){
+                        markerBearing = previousBearing;
+                    }
 
                     // Bearing adjustment can be set if you are trying to
                     // correct the heading of north - setBearingAdjustment(10)
@@ -271,6 +283,10 @@ public class LocationScene implements IALocationListener {
 
                     // Current camera height
                     float y = frame.getCamera().getDisplayOrientedPose().ty();
+
+//                    if(mLocationMarkers.get(i).anchorNode.isTracking()){
+//                        continue;
+//                    }
 
                     if (mLocationMarkers.get(i).anchorNode != null &&
                             mLocationMarkers.get(i).anchorNode.getAnchor() != null) {
