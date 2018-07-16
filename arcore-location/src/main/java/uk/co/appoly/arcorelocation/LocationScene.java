@@ -39,7 +39,7 @@ public class LocationScene implements IALocationListener {
     public ArrayList<LocationMarker> mLocationMarkers = new ArrayList<>();
     // Anchors are currently re-drawn on an interval. There are likely better
     // ways of doing this, however it's sufficient for now.
-    private int anchorRefreshInterval = 1000 * 5; // 5 seconds
+    private int anchorRefreshInterval = 100; // 5 seconds
     // Limit of where to draw markers within AR scene.
     // They will auto scale, but this helps prevents rendering issues
     private int distanceLimit = 20;
@@ -234,22 +234,22 @@ public class LocationScene implements IALocationListener {
                     }
 
 //                    float previousBearing = markerBearing;
-
-                    float markerBearing = deviceOrientation.currentDegree + (float) LocationUtils.bearing(
-                            currentLocation.getLatitude(),
-                            currentLocation.getLongitude(),
-                            mLocationMarkers.get(i).latitude,
-                            mLocationMarkers.get(i).longitude);
-
+//
+//                    markerBearing = deviceOrientation.currentDegree + (float) LocationUtils.bearing(
+//                            currentLocation.getLatitude(),
+//                            currentLocation.getLongitude(),
+//                            mLocationMarkers.get(i).latitude,
+//                            mLocationMarkers.get(i).longitude);
+//
 //                    if(Math.abs(previousBearing - markerBearing) > 100){
 //                        markerBearing = previousBearing;
 //                    }
-
-                    // Bearing adjustment can be set if you are trying to
-                    // correct the heading of north - setBearingAdjustment(10)
-                    markerBearing = markerBearing + bearingAdjustment;
-                    markerBearing = markerBearing % 360;
-
+//
+//                    // Bearing adjustment can be set if you are trying to
+//                    // correct the heading of north - setBearingAdjustment(10)
+//                    markerBearing = markerBearing + bearingAdjustment;
+//                    markerBearing = markerBearing % 360;
+                    markerBearing = 0;
                     double rotation = Math.floor(markerBearing);
 
                     // When pointing device upwards (camera towards sky)
@@ -379,10 +379,10 @@ public class LocationScene implements IALocationListener {
 
     @Override
     public void onLocationChanged(IALocation iaLocation) {
-        if(currentLocation == null && iaLocation.getAccuracy() < 5){
-            currentLocation = iaLocation;
-            refreshAnchors();
-        }
+//        if (iaLocation.getAccuracy() < 10) {
+        currentLocation = iaLocation;
+        Log.i(TAG, "ON LOCATION CAHNGED");
+//        this.refreshAnchors();
     }
 
     @Override
