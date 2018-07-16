@@ -233,17 +233,17 @@ public class LocationScene implements IALocationListener {
                         continue;
                     }
 
-                    float previousBearing = markerBearing;
+//                    float previousBearing = markerBearing;
 
-                    markerBearing = deviceOrientation.currentDegree + (float) LocationUtils.bearing(
+                    float markerBearing = deviceOrientation.currentDegree + (float) LocationUtils.bearing(
                             currentLocation.getLatitude(),
                             currentLocation.getLongitude(),
                             mLocationMarkers.get(i).latitude,
                             mLocationMarkers.get(i).longitude);
 
-                    if(Math.abs(previousBearing - markerBearing) > 100){
-                        markerBearing = previousBearing;
-                    }
+//                    if(Math.abs(previousBearing - markerBearing) > 100){
+//                        markerBearing = previousBearing;
+//                    }
 
                     // Bearing adjustment can be set if you are trying to
                     // correct the heading of north - setBearingAdjustment(10)
@@ -379,9 +379,10 @@ public class LocationScene implements IALocationListener {
 
     @Override
     public void onLocationChanged(IALocation iaLocation) {
-//        if (iaLocation.getAccuracy() < 10) {
+        if(currentLocation == null && iaLocation.getAccuracy() < 5){
             currentLocation = iaLocation;
-//        }
+            refreshAnchors();
+        }
     }
 
     @Override
