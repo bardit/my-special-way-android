@@ -55,7 +55,7 @@ import uk.co.appoly.arcorelocation.utils.ARLocationPermissionHelper;
 public class LocationActivity extends AppCompatActivity {
     private boolean installRequested;
     private boolean hasFinishedLoading = false;
-    
+
     private Snackbar loadingMessageSnackbar = null;
 
     private ArSceneView arSceneView;
@@ -130,10 +130,12 @@ public class LocationActivity extends AppCompatActivity {
                                 // If our locationScene object hasn't been setup yet, this is a good time to do it
                                 // We know that here, the AR components have been initiated.
                                 locationScene = new LocationScene(this, this, arSceneView);
-                                locationScene.setAnchorRefreshInterval(9999999);
 
 
-
+//                                locationScene.setAnchorRefreshInterval(5);
+//                                locationScene.setRefreshAnchorsAsLocationChanges(true);
+                                locationScene.setAnchorRefreshInterval(100);
+//                                locationScene.setDebugEnabled(true);
                                 // Now lets create our location markers.
                                 // First, a layout
 //                                LocationMarker layoutLocationMarker = new LocationMarker(
@@ -156,26 +158,16 @@ public class LocationActivity extends AppCompatActivity {
 //                                });
                                 // Adding the marker
 //                                locationScene.mLocationMarkers.add(layoutLocationMarker);
+
                                 // Adding a simple location marker of a 3D model
-                                locationScene.mLocationMarkers.add(new LocationMarker(
-                                        34.91060163,31.98638463,
-                                        getAndy()));
+                                LocationMarker locationMarker = new LocationMarker(
+                                        34.910606,31.986324,
+                                        getAndy());
+                                locationMarker.setRenderEvent(node -> {
+                                    targetLocationText.setText("Target distance: " + node.getDistance() + " - in AR: " + node.getDistanceInAR() + " - Bearing: " + locationScene.getMarkerBearing());
+                                });
 
-                                locationScene.mLocationMarkers.add(new LocationMarker(
-                                        34.91060642,31.986404,
-                                        getAndy()));
-
-                                locationScene.mLocationMarkers.add(new LocationMarker(
-                                        34.91055196,31.98644815,
-                                        getAndy()));
-
-                                locationScene.mLocationMarkers.add(new LocationMarker(
-                                        34.91047876,31.9865109,
-                                        getAndy()));
-
-//                                locationMarker.setRenderEvent(node -> {
-//                                    targetLocationText.setText("Target distance: " + node.getDistance() + " - in AR: " + node.getDistanceInAR() + " - Bearing: " + locationScene.getMarkerBearing());
-//                                });
+                                locationScene.mLocationMarkers.add(locationMarker);
                             }
 
                             Frame frame = arSceneView.getArFrame();
@@ -197,6 +189,8 @@ public class LocationActivity extends AppCompatActivity {
                             else{
                                 myLocationText.setText("No location yet");
                             }
+
+//                            targetLocationText.setText("Target's location: " + locationScene.);
 
                             if (loadingMessageSnackbar != null) {
                                 for (Plane plane : frame.getUpdatedTrackables(Plane.class)) {
