@@ -1,0 +1,70 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.appoly'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenLocal()
+        maven {
+            url "${project.rootDir}/../../libraries/m2repository"
+        }
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+
+android {
+    compileSdkVersion 27
+
+
+
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //implementation 'com.google.ar:core:1.2.0'
+    implementation 'com.indooratlas.android:indooratlas-android-sdk:2.7.0-beta-848@aar'
+    implementation 'com.indooratlas.android:indooratlas-android-wayfinding:2.7.0-beta-9'
+    implementation 'com.android.support:appcompat-v7:23.4.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+
+    implementation "com.google.ar.sceneform:core:1.3.0"
+    implementation "com.google.ar.sceneform.ux:sceneform-ux:1.3.0"
+}
+

@@ -280,18 +280,18 @@ public class WayfindingOverlayActivity extends FragmentActivity implements Locat
     @Override
     protected void onResume() {
         super.onResume();
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            mMap.setMyLocationEnabled(false);
-        }
-
-        // start receiving location updates & monitor region changes
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), mListener);
-        mIALocationManager.registerRegionListener(mRegionListener);
-
-        mMap.setOnMapClickListener(this);
+//        if (mMap == null) {
+//            // Try to obtain the map from the SupportMapFragment.
+//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+//                    .getMap();
+//            mMap.setMyLocationEnabled(false);
+//        }
+//
+//        // start receiving location updates & monitor region changes
+//        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), mListener);
+//        mIALocationManager.registerRegionListener(mRegionListener);
+//
+//        mMap.setOnMapClickListener(this);
     }
 
     @Override
