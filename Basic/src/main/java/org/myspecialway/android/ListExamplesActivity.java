@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.myspecialway.android.arcorelocation.LocationActivity;
+import org.myspecialway.android.wayfinding.WayfindingOverlayActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,7 +74,7 @@ public class ListExamplesActivity extends AppCompatActivity {
 
         ensurePermissions();
 
-        startActivity(new Intent(this, LocationActivity.class));
+        startActivity(new Intent(this, WayfindingOverlayActivity.class));
 
     }
 

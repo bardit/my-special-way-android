@@ -78,21 +78,20 @@ public class LocationActivity extends AppCompatActivity {
         TextView myLocationText = findViewById(R.id.my_location_text);
         TextView targetLocationText = findViewById(R.id.target_location);
         // Build a renderable from a 2D View.
-//        CompletableFuture<ViewRenderable> exampleLayout =
-//                ViewRenderable.builder()
-//                        .setView(this, R.layout.example_layout)
-//                        .build();
+        CompletableFuture<ViewRenderable> exampleLayout =
+                ViewRenderable.builder()
+                        .setView(this, R.layout.arrow)
+                        .build();
 
         // When you build a Renderable, Sceneform loads its resources in the background while returning
         // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
-        CompletableFuture<ModelRenderable> andy = ModelRenderable.builder()
-                .setSource(this, R.raw.andy)
-                .build();
+//        CompletableFuture<ModelRenderable> andy = ModelRenderable.builder()
+//                .setSource(this, R.raw.andy)
+//                .build();
 
 
         CompletableFuture.allOf(
-//                exampleLayout,
-                andy)
+                exampleLayout)
                 .handle(
                         (notUsed, throwable) -> {
                             // When you build a Renderable, Sceneform loads its resources in the background while
@@ -105,8 +104,8 @@ public class LocationActivity extends AppCompatActivity {
                             }
 
                             try {
-//                                exampleLayoutRenderable = exampleLayout.get();
-                                andyRenderable = andy.get();
+                                exampleLayoutRenderable = exampleLayout.get();
+//                                andyRenderable = andy.get();
                                 hasFinishedLoading = true;
 
                             } catch (InterruptedException | ExecutionException ex) {
@@ -132,18 +131,20 @@ public class LocationActivity extends AppCompatActivity {
                                 locationScene = new LocationScene(this, this, arSceneView);
 
 
-//                                locationScene.setAnchorRefreshInterval(5);
 //                                locationScene.setRefreshAnchorsAsLocationChanges(true);
                                 locationScene.setAnchorRefreshInterval(100);
+//                                locationScene.setMinimalRefreshing(true);
 //                                locationScene.setDebugEnabled(true);
                                 // Now lets create our location markers.
                                 // First, a layout
-//                                LocationMarker layoutLocationMarker = new LocationMarker(
-//                                        -4.849509,
-//                                        42.814603,
-//                                        getExampleView()
-//                                );
-
+                                LocationMarker layoutLocationMarker = new LocationMarker(
+                                        -4.849509,
+                                        42.814603,
+                                        getExampleView()
+                                );
+                                layoutLocationMarker.setRenderEvent(node -> {
+                                    targetLocationText.setText("Target distance: " + node.getDistance() + " - in AR: " + node.getDistanceInAR() + " - Bearing: " + locationScene.getMarkerBearing());
+                                });
 
 
                                 // An example "onRender" event, called every frame
@@ -152,7 +153,7 @@ public class LocationActivity extends AppCompatActivity {
 //                                    @Override
 //                                    public void render(LocationNode node) {
 //                                        View eView = exampleLayoutRenderable.getView();
-//                                        TextView distanceTextView = eView.findViewById(R.id.textView2);
+//                                        ew distanceTextView = eView.findViewById(R.id.arrow_icon);
 //                                        distanceTextView.setText(node.getDistance() + "M");
 //                                    }
 //                                });
@@ -160,14 +161,14 @@ public class LocationActivity extends AppCompatActivity {
 //                                locationScene.mLocationMarkers.add(layoutLocationMarker);
 
                                 // Adding a simple location marker of a 3D model
-                                LocationMarker locationMarker = new LocationMarker(
-                                        34.910606,31.986324,
-                                        getAndy());
-                                locationMarker.setRenderEvent(node -> {
-                                    targetLocationText.setText("Target distance: " + node.getDistance() + " - in AR: " + node.getDistanceInAR() + " - Bearing: " + locationScene.getMarkerBearing());
-                                });
+//                                LocationMarker locationMarker = new LocationMarker(
+//                                        34.910606,31.986324,
+//                                        getAndy());
+//                                locationMarker.setRenderEvent(node -> {
+//                                    targetLocationText.setText("Target distance: " + node.getDistance() + " - in AR: " + node.getDistanceInAR() + " - Bearing: " + locationScene.getMarkerBearing());
+//                                });
 
-                                locationScene.mLocationMarkers.add(locationMarker);
+                                locationScene.mLocationMarkers.add(layoutLocationMarker);
                             }
 
                             Frame frame = arSceneView.getArFrame();
@@ -211,21 +212,21 @@ public class LocationActivity extends AppCompatActivity {
      *
      * @return
      */
-//    private Node getExampleView() {
-//        Node base = new Node();
-//        base.setRenderable(exampleLayoutRenderable);
-//        Context c = this;
-//        // Add  listeners etc here
-//        View eView = exampleLayoutRenderable.getView();
-//        eView.setOnTouchListener((v, event) -> {
-//            Toast.makeText(
-//                    c, "Location marker touched.", Toast.LENGTH_LONG)
-//                    .show();
-//            return false;
-//        });
-//
-//        return base;
-//    }
+    private Node getExampleView() {
+        Node base = new Node();
+        base.setRenderable(exampleLayoutRenderable);
+        Context c = this;
+        // Add  listeners etc here
+        View eView = exampleLayoutRenderable.getView();
+        eView.setOnTouchListener((v, event) -> {
+            Toast.makeText(
+                    c, "Location marker touched.", Toast.LENGTH_LONG)
+                    .show();
+            return false;
+        });
+
+        return base;
+    }
 
     /***
      * Example Node of a 3D model
